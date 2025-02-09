@@ -1,0 +1,82 @@
+---
+
+- name: "Deploy | check Docker daemon status"
+  tags: [ monitoring, monitoring-deploy ]
+  ansible.builtin.systemd:
+    name: docker
+  register: docker_service_status
+  failed_when: docker_service_status.status.ActiveState != "active"
+
+
+- name: "Deploy | display Docker daemon status"
+  tags: [ monitoring, monitoring-deploy ]
+  ansible.builtin.debug:
+    var: docker_service_status.status.ActiveState
+
+
+- name: "Deploy | check that Docker Compose is available"
+  tags: [ monitoring, monitoring-deploy ]
+  changed_when: false
+  ansible.builtin.command:
+    cmd: "docker compose version"
+
+
+- name: "Deploy | install curl"
+  tags: [monitoring, monitoring-deploy]
+  when: cronitor_key_prom != '' or cronitor_key_am != ''
+  ansible.builtin.package:
+    name: curl
+    state: present
+
+
+- name: "Deploy | install Docker bindings for Python"
+  tags: [monitoring, monitoring-deploy]
+  ansible.builtin.pip:
+    name:
+      - docker
+      - docker-compose
+
+
+## NOTE: Permissions and ownership may be strange, but that's what the tools want
+- name: "Deploy | create directory structure"
+  tags: [ monitoring, monitoring-deploy ]
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    recurse: false
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - {path: "{{ mon_root_dir }}", owner: root, group: root, mode: "0770"}
+    - {path: "{{ mon_root_dir }}/prometheus-config", owner: nobody, group: nogroup, mode: "0770"}
+    - {path: "{{ mon_root_dir }}/alertmanager", owner: nobody, group: nogroup, mode: "0755"}
+    - {path: "{{ mon_root_dir }}/{{ mon_prometheus_volume }}", owner: nobody, group: nogroup, mode: "0755"}
+    - {path: "{{ mon_root_dir }}/{{ mon_grafana_volume }}", owner: 472, group: root, mode: "0777"}
+    - {path: "{{ mon_root_dir }}/provisioning/", owner: 472, group: root, mode: "0777"}
+    - {path: "{{ mon_root_dir }}/provisioning/dashboards", owner: 472, group: root, mode: "0777"}
+    - {path: "{{ mon_root_dir }}/provisioning/dashboards/nodes", owner: 472, group: root, mode: "0777"}
+    - {path: "{{ mon_root_dir }}/provisioning/dashboards/docker", owner: 472, group: root, mode: "0777"}
+    - {path: "{{ mon_root_dir }}/provisioning/datasources", owner: 472, group: root, mode: "0777"}
+
+
+- name: "Deploy | push the project's stack templates"
+  tags: [ monitoring, monitoring-deploy ]
+  ansible.builtin.template:
+    src: "templates/docker-compose.yaml.j2"
+    dest: "{{ mon_root_dir }}/docker-compose.yaml"
+    owner: root
+    group: root
+    mode: "0660"
+
+
+## Jumping through the hooves here, because we want the password to be
+## ...mounted as a file, instead of an environment variable that might be visible
+- name: "Deploy | push Grafana admin password as a mountable file"
+  tags: [ monitoring, monitoring-deploy ]
+  ansible.builtin.template:
+    src: "templates/gf-admin-passwd.j2"
+    dest: "/root/monitoring-gf-admin-password"  # can be mounted from here
+    owner: root
+    group: root
+    mode: "0660"

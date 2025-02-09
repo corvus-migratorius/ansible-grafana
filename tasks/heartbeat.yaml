@@ -1,0 +1,23 @@
+---
+
+- name: "Heartbeat | add a Cron job for poking Cronitor if Prometheus is ready"
+  tags: [monitoring, monitoring-heartbeat]
+  when: "cronitor_key_prom != ''"
+  ansible.builtin.cron:
+    name: "Poke Cronitor if Prometheus server is ready"
+    minute: "*"
+    hour: "*"
+    job: >
+      curl http://localhost:9090/-/ready &&
+      curl https://cronitor.link/p/2a2fcba509d649f787952c3b5a16cf70/{{ cronitor_key_prom }}
+
+- name: "Heartbeat | add a Cron job for poking Cronitor if AlertManager is ready"
+  tags: [monitoring, monitoring-heartbeat]
+  when: "cronitor_key_am != ''"
+  ansible.builtin.cron:
+    name: "Poke Cronitor if AlertManager server is ready"
+    minute: "*"
+    hour: "*"
+    job: >
+      curl http://localhost:9093/-/ready &&
+      curl https://cronitor.link/p/2a2fcba509d649f787952c3b5a16cf70/{{ cronitor_key_am }}

@@ -1,4 +1,23 @@
 ---
-- name: "Mock task"
-  ansible.builtin.debug:
-    msg: "hello, world!"
+# tasks file for playbooks/roles/monitoring
+
+- name: "Read variables from the given YAML file"
+  tags: [ monitoring, monitoring-deploy, monitoring-configure, monitoring-run, monitoring-heartbeat ]
+  ansible.builtin.include_vars:
+    file: "{{ mon_secrets_file }}"
+
+- name: "Include deployment tasks"
+  ansible.builtin.include_tasks: deploy.yaml
+  tags: [ monitoring, monitoring-deploy ]
+
+- name: "Include configuration tasks"
+  ansible.builtin.include_tasks: configure.yaml
+  tags: [ monitoring, monitoring-configure ]
+
+- name: "Include run tasks"
+  ansible.builtin.include_tasks: run.yaml
+  tags: [ monitoring, monitoring-run ]
+
+- name: "Include tasks for external heartbeat monitoring"
+  ansible.builtin.include_tasks: heartbeat.yaml
+  tags: [ monitoring, monitoring-heartbeat ]

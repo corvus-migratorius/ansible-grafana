@@ -1,1 +1,5 @@
 ---
+cronitor_key_prom: ""
+cronitor_key_am: ""
+
+monitoring_restarted: false

@@ -1,0 +1,74 @@
+---
+
+## ---- ---- ---- ---- Prometheus ---- ---- ---- ---- ##
+
+- name: "Configure | push Prometheus configuration"
+  tags: [ monitoring, monitoring-configure ]
+  loop:
+    - "prometheus.yaml"
+    - "alert-rules.yaml"
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ mon_root_dir }}/prometheus-config/{{ item }}"
+    owner: nobody
+    group: nogroup
+    mode: "0660"
+
+
+## ---- ---- ---- ---- AlertManager ---- ---- ---- ---- ##
+
+- name: "Configure | push AlertManager configuration file"
+  tags: [ monitoring, monitoring-configure ]
+  ansible.builtin.copy:
+    src: "am.config.yaml"
+    dest: "{{ mon_root_dir }}/alertmanager/config.yaml"
+    owner: nobody
+    group: nogroup
+    mode: "0660"
+
+
+## ---- ---- ---- ---- Grafana ---- ---- ---- ---- ##
+
+- name: "Configure | provision a Prometheus data source for Grafana"
+  tags: [ monitoring, monitoring-configure ]
+  ansible.builtin.template:
+    src: "templates/gf-prometheus-dsource.yaml.j2"
+    dest: "{{ mon_root_dir }}/provisioning/datasources/prometheus.yaml"  # can be mounted from here
+    owner: root
+    group: root
+    mode: "0660"
+
+- name: "Configure | provision a Grafana dashboard source"
+  tags: [ monitoring, monitoring-configure ]
+  ansible.builtin.template:
+    src: "templates/gf-dashboards-default.yaml.j2"
+    dest: "{{ mon_root_dir }}/provisioning/dashboards/default.yaml"  # can be mounted from here
+    owner: root
+    group: root
+    mode: "0660"
+
+- name: "Configure | provision node monitoring dashboards"
+  tags: [ monitoring, monitoring-configure ]
+  loop:
+    - "genlab-sc.dashboard.json"
+    - "genlab-mipt.dashboard.json"
+    - "genlab-cch.dashboard.json"
+    - "genlab-cube.dashboard.json"
+    - "genlab-1c.dashboard.json"
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "{{ mon_root_dir }}/provisioning/dashboards/nodes/{{ item }}"
+    owner: root
+    group: root
+    mode: "0660"
+
+- name: "Configure | provision Docker container monitoring dashboards"
+  tags: [ monitoring, monitoring-configure ]
+  loop:
+    - "genlab-sc.docker.dashboard.json"
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "{{ mon_root_dir }}/provisioning/dashboards/docker/{{ item }}"
+    owner: root
+    group: root
+    mode: "0660"
