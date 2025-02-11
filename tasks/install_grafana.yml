@@ -1,0 +1,40 @@
+---
+- name: "Create Grafana system group"
+  ansible.builtin.group:
+    name: grafana
+    system: true
+    state: present
+
+- name: "Create Grafana system user"
+  ansible.builtin.user:
+    name: grafana
+    group: grafana
+    system: true
+    shell: "/sbin/nologin"
+    create_home: true
+    home: "{{ grafana_db_dir }}"
+
+- name: Download Grafana archive
+  ansible.builtin.get_url:
+    url: "https://github.com/grafana/grafana/archive/refs/tags/v{{ grafana_version }}.tar.gz"
+    dest: "/tmp/grafana-v{{ grafana_version }}.tar.gz"
+    owner: "grafana"
+    group: "grafana"
+    mode: 0775
+
+- name: "Extract Grafana archive"
+  ansible.builtin.unarchive:
+    src: "/tmp/grafana-v{{ grafana_version }}.tar.gz"
+    dest: "{{ grafana_db_dir }}"
+    creates: "{{ grafana_db_dir }}/grafana-v{{ grafana_version }}"
+    remote_src: true
+
+# - name: "build grafana server"
+#   community.general.make: 
+#     chdir: "{{ grafana_db_dir }}/grafana-v{{ grafana_version }}"
+#     target: build
+
+- name: "Cleanup downloaded file"
+  ansible.builtin.file:
+    path: "/tmp/grafana-v{{ grafana_version }}.tar.gz"
+    state: absent
