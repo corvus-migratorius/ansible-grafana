@@ -12,11 +12,12 @@
     system: true
     shell: "/sbin/nologin"
     create_home: true
-    home: "{{ grafana_db_dir }}"
+    home: "{{ grafana_dir }}"
+    state: present
 
 - name: Download Grafana archive
   ansible.builtin.get_url:
-    url: "https://github.com/grafana/grafana/archive/refs/tags/v{{ grafana_version }}.tar.gz"
+    url: "https://dl.grafana.com/oss/release/grafana-{{ grafana_version }}.linux-amd64.tar.gz"
     dest: "/tmp/grafana-v{{ grafana_version }}.tar.gz"
     owner: "grafana"
     group: "grafana"
@@ -25,14 +26,11 @@
 - name: "Extract Grafana archive"
   ansible.builtin.unarchive:
     src: "/tmp/grafana-v{{ grafana_version }}.tar.gz"
-    dest: "{{ grafana_db_dir }}"
-    creates: "{{ grafana_db_dir }}/grafana-v{{ grafana_version }}"
+    dest: "{{ grafana_dir }}"
+    creates: "{{ grafana_dir }}/grafana-v{{ grafana_version }}"
     remote_src: true
-
-# - name: "build grafana server"
-#   community.general.make: 
-#     chdir: "{{ grafana_db_dir }}/grafana-v{{ grafana_version }}"
-#     target: build
+    owner: grafana
+    group: grafana
 
 - name: "Cleanup downloaded file"
   ansible.builtin.file:
