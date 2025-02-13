@@ -7,6 +7,6 @@
       prometheus_version: 3.1.0
       alertmanager_version: 0.28.0
       prometheus_db_dir: "/home/prometheus"
-      grafana_db_dir: "/home/grafana"
+      grafana_dir: "/home/grafana"
       alertmanager_dir: "/home/altmanager"
 
