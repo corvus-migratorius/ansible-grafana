@@ -1,5 +1,5 @@
 ---
-- name: Download Grafana DEB package
+- name: "Download Grafana DEB package"
   ansible.builtin.get_url:
     url: "https://dl.grafana.com/oss/release/grafana_{{ grafana_version }}_amd64.deb"
     dest: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
@@ -7,7 +7,7 @@
     group: "{{ grafana_group }}"
   register: package_tmp
 
-- name: Install Grafana deb package
+- name: "Install Grafana deb package"
   ansible.builtin.apt:
     deb: "{{ package_tmp.dest }}"
     state: present
@@ -18,7 +18,7 @@
     path: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
     state: absent
 
-- name: Start and enable Grafana service
+- name: "Start and enable Grafana service"
   ansible.builtin.service:
     name: grafana-server
     state: started
