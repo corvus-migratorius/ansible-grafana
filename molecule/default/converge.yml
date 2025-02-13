@@ -1,12 +1,22 @@
 ---
 - name: Converge
   hosts: all
+
+  pre_tasks:
+    - name: "Create Grafana system group"
+      ansible.builtin.group:
+        name: grafana
+        system: true
+        state: present
+
+    - name: "Create Grafana system user"
+      ansible.builtin.user:
+        name: grafana
+        group: "{{ grafana_group }}"
+        system: true
+        shell: "/sbin/nologin"
+        create_home: false
+
   roles:
     - role: genlab.grafana
       grafana_version: 11.5.0
-      prometheus_version: 3.1.0
-      alertmanager_version: 0.28.0
-      prometheus_db_dir: "/home/prometheus"
-      grafana_dir: "/home/grafana"
-      alertmanager_dir: "/home/altmanager"
-

@@ -2,3 +2,10 @@
 grafana_user: "grafana"
 grafana_group: "grafana"
 grafana_version: 11.5.0
+grafana_home: "/usr/share/grafana"
+config_dir: "/etc/grafana" # conf_file: $CONF_DIR/grafana.ini
+data_dir: "{{ grafana_dir }}/data" #/var/lib/grafana
+logs_dir: "{{ data_dir }}/log"  #/var/log/grafana
+provisioning_dir: "{{ grafana_dir }}/conf/provisioning" #$CONF_DIR/provisioning
+plugins_dir: "{{ data_dir }}/plugins" #/var/lib/grafana/plugins
+#daemon=$GRAFANA_HOME/bin/grafana

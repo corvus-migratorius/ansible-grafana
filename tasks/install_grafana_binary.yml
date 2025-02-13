@@ -1,18 +1,4 @@
 ---
-- name: "Create Grafana system group"
-  ansible.builtin.group:
-    name: grafana
-    system: true
-    state: present
-
-- name: "Create Grafana system user"
-  ansible.builtin.user:
-    name: grafana
-    group: "{{ grafana_group }}"
-    system: true
-    shell: "/sbin/nologin"
-    create_home: false
-
 - name: Download Grafana archive
   ansible.builtin.get_url:
     url: "https://dl.grafana.com/oss/release/grafana-{{ grafana_version }}.linux-amd64.tar.gz"

@@ -9,29 +9,28 @@
 
 - name: Ensure existence of logs dir
   ansible.builtin.file:
-    path: "{{ _logs_dir }}"
+    path: "{{ logs_dir }}"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     state: directory
 
 - name: Ensure existence of data dir
   ansible.builtin.file:
-    path: "{{ _data_dir }}"
+    path: "{{ data_dir }}"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     state: directory
 
 - name: Ensure existence of provisioning dir
   ansible.builtin.file:
-    path: "{{ _provisioning_dir }}"
+    path: "{{ provisioning_dir }}"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     state: directory
 
 - name: Ensure existence of plugins dir
   ansible.builtin.file:
-    path: "{{ _plugins_dir }}"
+    path: "{{ plugins_dir }}"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     state: directory
-
