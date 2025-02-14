@@ -2,8 +2,8 @@
 - name: "Include grafana installation tasks"
   ansible.builtin.include_tasks: install_deb_graf.yml
 
-# - name: "Include configuration tasks"
-#   ansible.builtin.include_tasks: configuration.yml
+- name: "Include user creation tasks"
+  ansible.builtin.include_tasks: user.yml
 
 # - name: "Include deployment task for grafana and prometheus"
 #   ansible.builtin.include_tasks: deploy.yml

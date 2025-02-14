@@ -8,18 +8,25 @@
   register: package_tmp
 
 - name: "Install Grafana deb package"
-  ansible.builtin.apt:
-    deb: "{{ package_tmp.dest }}"
-    state: present
-    update_cache: true
+  block:
+    - name: "Check if Grafana already installed"
+      changed_when: false
+      ansible.builtin.command:
+        cmd: "grafana-server --version"
+  rescue:
+    - name: "Download DEB package"
+      ansible.builtin.apt:
+        deb: "{{ package_tmp.dest }}"
+        state: present
+        update_cache: true
 
-- name: "Cleanup downloaded file"
-  ansible.builtin.file:
-    path: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
-    state: absent
+    - name: "Cleanup downloaded file"
+      ansible.builtin.file:
+        path: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
+        state: absent
 
-- name: "Start and enable Grafana service"
-  ansible.builtin.service:
-    name: grafana-server
-    state: started
-    enabled: true
+    - name: "Start and enable Grafana service"
+      ansible.builtin.service:
+        name: grafana-server
+        state: started
+        enabled: true
