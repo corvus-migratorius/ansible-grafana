@@ -1,11 +1,12 @@
-- name: "Create or update a Grafana user"
-  community.grafana.grafana_user:
-    url: "http://127.0.0.1:3000/"
-    url_username: admin
-    url_password: "{{ url_password }}"
-    name: "TestUser"
-    email: testadm@mail.ru
-    login: test
-    password: "{{ password }}"
-    is_admin: true
-    state: present
+# - name: "Create or update a Grafana user"
+#   community.grafana.grafana_user:
+#     url: "http://127.0.0.1:3000"
+#     url_username: "admin"
+#     url_password: "{{ url_password }}"
+#     name: "TestUser"
+#     email: "testadm@mail.ru"
+#     login: "test"
+#     password: "{{ password }}"
+#     is_admin: true
+#     state: present
+#   register: outcheck
