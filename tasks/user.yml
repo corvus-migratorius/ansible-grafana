@@ -1,7 +1,9 @@
 - name: "Create or update a Grafana user"
   community.grafana.grafana_user:
-    url: "localhost:3000"
-    name: "TestAdm"
+    url: "http://127.0.0.1:3000/"
+    url_username: admin
+    url_password: admin
+    name: ""
     email: testadm@mail.ru
     login: test
     password: test
