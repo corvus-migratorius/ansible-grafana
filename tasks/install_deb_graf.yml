@@ -5,6 +5,7 @@
     dest: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
+    mode: "0644"
   register: package_tmp
 
 - name: "Install Grafana deb package"
