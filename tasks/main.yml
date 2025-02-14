@@ -4,6 +4,3 @@
 
 - name: "Include user creation tasks"
   ansible.builtin.include_tasks: user.yml
-
-# - name: "Include deployment task for grafana and prometheus"
-#   ansible.builtin.include_tasks: deploy.yml
