@@ -1,0 +1,9 @@
+- name: "Configure | provision a Prometheus data source for Grafana"
+  community.grafana.grafana_datasource:
+    grafana_url: "http://127.0.0.1:3000"
+    grafana_user: "admin"
+    grafana_password: "{{ url_password }}"
+    state: present
+    name: Prometheus
+    ds_type: prometheus
+    ds_url: "http://127.0.0.1:3000"

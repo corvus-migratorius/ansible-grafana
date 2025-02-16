@@ -4,3 +4,6 @@
 
 - name: "Include user creation tasks"
   ansible.builtin.include_tasks: user.yml
+
+- name: "Configure Grafana"
+  ansible.builtin.include_tasks: configuration.yml

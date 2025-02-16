@@ -1,12 +1,37 @@
-# - name: "Create or update a Grafana user"
-#   community.grafana.grafana_user:
-#     url: "http://127.0.0.1:3000"
-#     url_username: "admin"
-#     url_password: "{{ url_password }}"
-#     name: "TestUser"
-#     email: "testadm@mail.ru"
-#     login: "test"
-#     password: "{{ password }}"
-#     is_admin: true
-#     state: present
-#   register: outcheck
+- name: "Create or update a Grafana user"
+  community.grafana.grafana_user:
+    url: "http://127.0.0.1:3000"
+    url_username: "admin"
+    url_password: "{{ url_password }}"
+    name: "TestUser"
+    email: "testadm@mail.ru"
+    login: "test"
+    password: "{{ password }}"
+    is_admin: true
+    state: present
+  register: outcheck
+
+- name: Create  directory
+  ansible.builtin.file:
+    path:  /tmp/grafana/dashboards/
+    state: directory
+
+- name: Dashboard json files 
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /tmp/grafana/dashboards/{{ item | basename }}
+    mode: "0644"
+  with_fileglob:
+    - files/*.json
+
+- name: Import Grafana dashboards
+  community.grafana.grafana_dashboard:
+    grafana_url: "http://127.0.0.1:3000"
+    url_username: "admin"
+    url_password: "{{ url_password }}"
+    state: present
+    commit_message: Updated by ansible
+    overwrite: true
+    path: /tmp/grafana/dashboards/{{item | basename }}
+  with_fileglob:
+    - files/*.json
