@@ -1,12 +1,12 @@
 - name: "Create  directory"
   ansible.builtin.file:
-    path:  /tmp/grafana/dashboards/
+    path:  "{{ dashboard_dir }}"
     state: directory
 
 - name: "Dashboard json files" 
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: /tmp/grafana/dashboards/{{ item | basename }}
+    dest: "{{ dashboard_dir }}/{{ item | basename }}"
     mode: "0644"
   with_fileglob:
     - files/*.json
@@ -19,7 +19,7 @@
     state: present
     commit_message: Updated by ansible
     overwrite: true
-    path: /tmp/grafana/dashboards/{{ item | basename }}
+    path: "{{ dashboard_dir }}/{{ item | basename }}"
   with_fileglob:
     - files/*.json
 
