@@ -4,3 +4,8 @@ grafana_group: "grafana"
 grafana_version: 11.5.0
 url_password: "admin"
 password: "test"
+user_name: "test"
+user_login: "test"
+user_password: "test"
+user_email: "test@mail.ru"
+dashboard_dir: "/tmp/grafana/dashboards"

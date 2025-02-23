@@ -66,6 +66,14 @@
         - prometheus
         - promtool
 
+    - name: "Create config file"
+      ansible.builtin.template:
+        src: prometheus.yaml
+        dest: /etc/prometheus/prometheus.yml
+        owner: prometheus
+        group: prometheus
+        mode: 0660
+
     - name: "Create systemd service unit"
       ansible.builtin.template:
         src: prometheus.service.j2
