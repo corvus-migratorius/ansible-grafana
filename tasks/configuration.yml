@@ -1,9 +1,12 @@
 - name: "Create  directory"
   ansible.builtin.file:
-    path:  "{{ dashboard_dir }}"
+    path: "{{ dashboard_dir }}"
     state: directory
+    user: grafana
+    owner: grafana
+    mode: "0755"
 
-- name: "Dashboard json files" 
+- name: "Dashboard json files"
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ dashboard_dir }}/{{ item | basename }}"
