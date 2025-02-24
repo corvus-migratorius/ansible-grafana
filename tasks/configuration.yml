@@ -2,8 +2,8 @@
   ansible.builtin.file:
     path: "{{ dashboard_dir }}"
     state: directory
-    user: grafana
-    owner: grafana
+    user: "{{ grafana_user }}"
+    owner: "{{ grafana_group }}"
     mode: "0755"
 
 - name: "Dashboard json files"
@@ -11,6 +11,8 @@
     src: "{{ item }}"
     dest: "{{ dashboard_dir }}/{{ item | basename }}"
     mode: "0644"
+    user: "{{ grafana_user }}"
+    owner: "{{ grafana_group }}"
   with_fileglob:
     - files/*.json
 
