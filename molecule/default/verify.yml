@@ -22,11 +22,11 @@
         success_msg: "grafana version {{ grafana_version }} is installed and working"
         fail_msg: "grafana version {{ grafana_version }} is not installed or not working correctly"
 
+    # kics-scan ignore-block
     - name: "Check if Grafana login page is reachable"
       retries: 5
       delay: 1
       ansible.builtin.uri:
-      # kics ignore-line
         url: "http://localhost:3000/login"
         return_content: true
         status_code: 200
