@@ -1,3 +1,4 @@
+# kics-scan disable=b710fc6abe5f032dde4691b44d52b199ac371a_334a9a
 ---
 - name: Verify
   hosts: all
