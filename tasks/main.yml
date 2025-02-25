@@ -1,6 +1,6 @@
 ---
 - name: "Include grafana installation tasks"
-  ansible.builtin.include_tasks: install_deb_graf.yml
+  ansible.builtin.include_tasks: install.yml
 
 - name: "Ensure that Grafana is available"
   ansible.builtin.wait_for:
