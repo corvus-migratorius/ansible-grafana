@@ -12,10 +12,11 @@
     - name: "Create Grafana system user"
       ansible.builtin.user:
         name: grafana
-        group: "{{ grafana_group }}"
+        group: grafana
         system: true
         shell: "/sbin/nologin"
         create_home: false
+        state: present
 
   roles:
     - role: genlab.grafana
