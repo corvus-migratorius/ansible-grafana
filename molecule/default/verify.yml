@@ -1,4 +1,3 @@
-# kics-scan disable=b710fc6abe5f032dde4691b44d52b199ac371a_334a9a
 ---
 - name: Verify
   hosts: all
@@ -27,6 +26,7 @@
       retries: 5
       delay: 1
       ansible.builtin.uri:
+      # kics ignore-line
         url: "http://localhost:3000/login"
         return_content: true
         status_code: 200
