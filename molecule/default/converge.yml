@@ -12,11 +12,18 @@
     - name: "Create Grafana system user"
       ansible.builtin.user:
         name: grafana
-        group: "{{ grafana_group }}"
+        group: grafana
         system: true
         shell: "/sbin/nologin"
         create_home: false
 
   roles:
+    # kics-scan ignore-block
     - role: genlab.grafana
       grafana_version: 11.5.0
+      url_password: "admin"
+      password: "test"
+      user_name: "test"
+      user_login: "test"
+      user_password: "test"
+      user_email: "test@mail.ru"

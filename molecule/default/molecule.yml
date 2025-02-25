@@ -8,8 +8,6 @@ driver:
 platforms:
   - name: ubuntu
     image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2404}-ansible:latest
-    published_ports:
-      - 127.0.0.1:3001:3000
     pre_build_image: true
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
