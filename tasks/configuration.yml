@@ -37,3 +37,9 @@
     name: Prometheus
     ds_type: prometheus
     ds_url: "http://127.0.0.1:9090"
+
+- name: "Configure Loki plugin"
+  community.grafana.grafana_plugin:
+    name: grafana-lokiexplore-app
+    grafana_repo: "{{ plugins_dir }}"
+    state: present
