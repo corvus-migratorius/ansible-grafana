@@ -24,10 +24,16 @@
 
     # kics-scan ignore-block
     - name: "Check if Grafana login page is reachable"
-      retries: 5
-      delay: 1
       ansible.builtin.uri:
-        url: "http://localhost:3000/login"
+        url: "http://localhost:3000/api/health"
         return_content: true
         status_code: 200
         method: GET
+        body_format: json
+      register: grafana_health
+
+    - name: "Debug Grafana health status"
+      ansible.builtin.assert:
+        that: grafana_health.json.database == "ok"
+        success_msg: "Grafana is healthy"
+        fail_msg: "Grafana is not healthy"
