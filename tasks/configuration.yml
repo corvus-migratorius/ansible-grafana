@@ -1,3 +1,4 @@
+---
 - name: "Create  directory"
   ansible.builtin.file:
     path: "{{ dashboard_dir }}"
@@ -34,7 +35,15 @@
     state: present
     overwrite: false
     dashboard_id: 1860
+    dashboard_revision: 36
     commit_message: "Add Node Exporter Full dashboard"
+  register: nef
+
+- name: "Configure Loki plugin"
+  community.grafana.grafana_plugin:
+    name: grafana-lokiexplore-app
+    grafana_repo: "{{ plugins_dir }}"
+    state: present
 
 - name: "Configure | provision a Prometheus data source for Grafana"
   community.grafana.grafana_datasource:
@@ -47,15 +56,25 @@
     ds_url: "http://127.0.0.1:9090"
     enforce_secure_data: false
     additional_json_data:
-      apiVersion: 1
+      version: 1
   register: ds_prom
 
-- name: "Debug dashboards"
+- name: "Debug prom dashboards"
   ansible.builtin.debug:
     var: ds_prom
 
-- name: "Configure Loki plugin"
-  community.grafana.grafana_plugin:
-    name: grafana-lokiexplore-app
-    grafana_repo: "{{ plugins_dir }}"
+- name: "Configure | provision a Loki data source for Grafana"
+  community.grafana.grafana_datasource:
+    grafana_url: "http://127.0.0.1:3000"
+    grafana_user: "{{ admin_api_username }}"
+    grafana_password: "{{ admin_api_password }}"
     state: present
+    name: Loki
+    ds_type: loki
+    ds_url: "http://127.0.0.1:3100"
+    enforce_secure_data: false
+  register: loki_ds
+
+- name: "Debug loki dashboards"
+  ansible.builtin.debug:
+    var: loki_ds

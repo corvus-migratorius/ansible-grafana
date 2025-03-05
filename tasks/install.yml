@@ -1,5 +1,4 @@
 ---
-
 - name: "Install Grafana deb package"
   block:
     - name: "Check Grafana version"
