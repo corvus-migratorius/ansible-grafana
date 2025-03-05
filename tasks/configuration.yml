@@ -23,7 +23,7 @@
     url_password: "{{ admin_api_password }}"
     state: present
     commit_message: Updated by ansible
-    overwrite: true
+    overwrite: false
     path: "{{ dashboard_dir }}/{{ item | basename }}"
   with_fileglob:
     - files/*.json
@@ -45,13 +45,13 @@
     name: Prometheus
     ds_type: prometheus
     ds_url: "http://127.0.0.1:9090"
-    enforce_secure_data : false
+    enforce_secure_data: false
     additional_json_data:
       apiVersion: 1
   register: ds_prom
 
-- name: "debug dashboards"
-  debug:
+- name: "Debug dashboards"
+  ansible.builtin.debug:
     var: ds_prom
 
 - name: "Configure Loki plugin"

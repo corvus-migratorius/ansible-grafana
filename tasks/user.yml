@@ -2,11 +2,11 @@
 - name: "Create or update a Grafana user"
   community.grafana.grafana_user:
     url: "http://127.0.0.1:3000"
-    url_username: "admin"
+    url_username: "{{ admin_api_username }}"
     url_password: "{{ admin_api_password }}"
-    name: "{{ user_name }}"
-    email: "{{ user_email }}"
-    login: "{{ user_login }}"
-    password: "{{ user_password }}"
-    is_admin: true
+    name: "{{ user.name }}"
+    email: "{{ user.user_email }}"
+    login: "{{ user.user_login }}"
+    password: "{{ user.user_password }}"
+    is_admin: "{{ user.is_admin | default(false) }}"
     state: present
