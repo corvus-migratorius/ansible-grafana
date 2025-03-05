@@ -21,7 +21,8 @@
     # kics-scan ignore-block
     - role: genlab.grafana
       grafana_version: 11.5.0
-      url_password: "admin"
+      admin_api_username: "admin"
+      admin_api_password: "admin"
       password: "test"
       user_name: "test"
       user_login: "test"

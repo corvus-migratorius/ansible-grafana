@@ -3,7 +3,7 @@
   community.grafana.grafana_user:
     url: "http://127.0.0.1:3000"
     url_username: "admin"
-    url_password: "{{ url_password }}"
+    url_password: "{{ admin_api_password }}"
     name: "{{ user_name }}"
     email: "{{ user_email }}"
     login: "{{ user_login }}"
