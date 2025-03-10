@@ -33,7 +33,7 @@
   roles:
     # kics-scan ignore-block
     - role: genlab.grafana
-      grafana_version: 11.5.2
+      grafana_version: 11.5.0
       admin_api_username: "admin"
       admin_api_password: "admin"
       users: "{{ grafana_users }}"
