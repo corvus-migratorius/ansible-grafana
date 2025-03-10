@@ -15,7 +15,7 @@
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
   with_fileglob:
-    - files/*.json
+    - "{{ dashboard_source_path }}/*.json"
 
 - name: "Import Grafana dashboards"
   community.grafana.grafana_dashboard:
