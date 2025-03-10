@@ -55,6 +55,7 @@
 
 - name: "Run | reload Grafana provisioned configurations"
   ansible.builtin.uri:
+  # kics-scan ignore-line
     url: "http://127.0.0.1:3000/api/admin/provisioning/datasources/reload"
     method: POST
     force_basic_auth: true

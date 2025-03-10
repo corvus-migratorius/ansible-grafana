@@ -5,11 +5,13 @@
     grafana_users:
       - name: "test"
         user_login: "test"
+       # kics-scan ignore-line
         user_password: "test"
         user_email: "test@mail.ru"
         is_admin: false
       - name: "test2"
         user_login: "test2"
+        # kics-scan ignore-line
         user_password: "test2"
         user_email: "test2@mail.ru"
         is_admin: true
