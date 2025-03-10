@@ -35,7 +35,7 @@
     state: present
     overwrite: false
     dashboard_id: 1860
-    dashboard_revision: 36
+    dashboard_revision: "{{ node_full_exporter_dashboard_revision }}"
     commit_message: "Add Node Exporter Full dashboard"
   register: nef
 
@@ -45,36 +45,78 @@
     grafana_repo: "{{ plugins_dir }}"
     state: present
 
+# - name: "Configure infinity Grafana"
+#   community.grafana.grafana_plugin:
+#     name: yesoreyeram-infinity-datasource
+#     grafana_repo: "{{ plugins_dir }}"
+#     state: present
+#     version: 2.12.2
+
+
+# - name: "Configure | provision a Prometheus data source for Grafana"
+#   grafana.grafana.datasource:
+#     dataSource: |
+#       {
+#         "name": "Prometheus",
+#         "type": "prometheus",
+#         "access": "proxy",
+#         "url": "http://localhost:9090",
+#         "jsonData": {
+#           "httpMethod": "POST",
+#           "manageAlerts": true,
+#           "prometheusType": "Prometheus",
+#           "cacheLevel": "High"
+#         }
+#       }
+#     grafana_url: "http://127.0.0.1:3000"
+#     grafana_api_key: ""
+#     state: present
+
+# - name: "Configure | provision a Prometheus data source for Grafana"
+#   community.grafana.grafana_datasource:
+#     grafana_url: "http://127.0.0.1:3000"
+#     grafana_user: "admin"
+#     grafana_password: "{{ admin_api_password }}"
+#     state: present
+#     name: Prometheus
+#     ds_type: prometheus
+#     ds_url: "http://127.0.0.1:9090"
+#     enforce_secure_data: false
+#     tls_skip_verify: true
+#     is_default: true
+#     additional_json_data:
+#       APIVersion: 1
+#     access: proxy
+#   register: prom
+
+# - name: Debug plugin
+#   ansible.builtin.debug:
+#     var: prom
+
+# - name: "Configure | provision a Loki data source for Grafana"
+#   community.grafana.grafana_datasource:
+#     grafana_url: "http://127.0.0.1:3000"
+#     grafana_user: "{{ admin_api_username }}"
+#     grafana_password: "{{ admin_api_password }}"
+#     state: present
+#     name: Loki
+#     ds_type: loki
+#     ds_url: "http://127.0.0.1:3100"
+#     enforce_secure_data: false
+
 - name: "Configure | provision a Prometheus data source for Grafana"
-  community.grafana.grafana_datasource:
-    grafana_url: "http://127.0.0.1:3000"
-    grafana_user: "admin"
-    grafana_password: "{{ admin_api_password }}"
-    state: present
-    name: Prometheus
-    ds_type: prometheus
-    ds_url: "http://127.0.0.1:9090"
-    enforce_secure_data: false
-    additional_json_data:
-      version: 1
-  register: ds_prom
+  ansible.builtin.template:
+    src: "templates/gf-prometheus-dsource.yaml.j2"
+    dest: "{{ datasource_dir }}/prometheus.yml"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: "0660"
 
-- name: "Debug prom dashboards"
-  ansible.builtin.debug:
-    var: ds_prom
-
-- name: "Configure | provision a Loki data source for Grafana"
-  community.grafana.grafana_datasource:
-    grafana_url: "http://127.0.0.1:3000"
-    grafana_user: "{{ admin_api_username }}"
-    grafana_password: "{{ admin_api_password }}"
-    state: present
-    name: Loki
-    ds_type: loki
-    ds_url: "http://127.0.0.1:3100"
-    enforce_secure_data: false
-  register: loki_ds
-
-- name: "Debug loki dashboards"
-  ansible.builtin.debug:
-    var: loki_ds
+- name: "Run | reload Grafana provisioned configurations"
+  ansible.builtin.uri:
+    url: "http://localhost:3000/api/admin/provisioning/datasources/reload"
+    method: POST
+    force_basic_auth: true
+    user: admin
+    password: "{{ admin_api_password }}"
+    status_code: 200
