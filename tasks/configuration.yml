@@ -27,7 +27,7 @@
     overwrite: false
     path: "{{ dashboard_dir }}/{{ item | basename }}"
   with_fileglob:
-    - files/*.json
+    - "{{ dashboard_source_path }}/*.json"
 
 - name: "Import Node Exporter Full dashboard"
   community.grafana.grafana_dashboard:
