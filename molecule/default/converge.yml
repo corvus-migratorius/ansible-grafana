@@ -40,4 +40,4 @@
       admin_api_password: "admin"
       users: "{{ grafana_users }}"
       node_full_exporter_dashboard_revision: 36
-      dashboard_source_path: "files"
+      dashboard_source_path: "molecule/default"
