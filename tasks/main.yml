@@ -23,3 +23,9 @@
 
 - name: "Configure datasources"
   ansible.builtin.include_tasks: datasources.yml
+
+- name: "Configure plugins"
+  loop: "{{ plugins }}"
+  loop_control:
+    loop_var: plugin
+  ansible.builtin.include_tasks: plugins.yml

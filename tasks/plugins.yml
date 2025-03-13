@@ -1,0 +1,15 @@
+---
+- name: "Install Grafana plugins"
+  community.grafana.grafana_plugin:
+    name: "{{ plugin.name }}"
+    version: "{{ plugin.version }}"
+    grafana_plugins_dir: "{{ plugins_dir }}"
+    state: present
+  register: plugin_status
+
+- name: "Restart grafana if add new plugi"
+  when: plugin_status.changed
+  ansible.builtin.systemd_service:
+    state: restarted
+    daemon_reload: true
+    name: grafana-server
