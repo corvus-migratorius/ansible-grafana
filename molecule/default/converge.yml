@@ -41,3 +41,4 @@
       users: "{{ grafana_users }}"
       node_full_exporter_dashboard_revision: 36
       dashboard_source_path: "molecule/default"
+      datasource_source_path: "molecule/default"

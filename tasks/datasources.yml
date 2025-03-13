@@ -1,0 +1,20 @@
+---
+- name: "Configure | provision a data sources data source for Grafana"
+  ansible.builtin.copy:
+    src: "{{ datasource_source_path }}/{{ item | basename }}"
+    dest: "{{ datasource_dir }}/{{ item | basename }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: "0660"
+  with_fileglob:
+    "{{ datasource_source_path }}/*.yaml"
+
+- name: "Run | reload Grafana provisioned configurations"
+  ansible.builtin.uri:
+  # kics-scan ignore-line
+    url: "http://127.0.0.1:3000/api/admin/provisioning/datasources/reload"
+    method: POST
+    force_basic_auth: true
+    user: "{{ admin_api_username }}"
+    password: "{{ admin_api_password }}"
+    status_code: 200

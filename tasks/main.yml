@@ -17,3 +17,6 @@
 
 - name: "Configure Grafana"
   ansible.builtin.include_tasks: configuration.yml
+
+- name: "Configure datasources"
+  ansible.builtin.include_tasks: datasources.yml
