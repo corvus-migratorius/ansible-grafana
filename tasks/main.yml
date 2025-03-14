@@ -10,27 +10,29 @@
     delay: 10
 
 - name: "Include user creation tasks"
+  when: users is defined
   loop: "{{ users }}"
   loop_control:
     loop_var: user
   ansible.builtin.include_tasks: user.yml
 
-- name: "Configure Grafana"
-  ansible.builtin.include_tasks: configuration.yml
-
 - name: "Configure dashboards"
+  when: dashboard_source_path is defined
   ansible.builtin.include_tasks: dashboards.yml
 
 - name: "Configure public dashboards"
+  when: public_dashboards is defined
   loop: "{{ public_dashboards }}"
   loop_control:
     loop_var: public_dashboard
   ansible.builtin.include_tasks: public_grafana_dashboards.yml
 
 - name: "Configure datasources"
+  when: datasource_source_path is defined
   ansible.builtin.include_tasks: datasources.yml
 
 - name: "Configure plugins"
+  when: plugins is defined
   loop: "{{ plugins }}"
   loop_control:
     loop_var: plugin
