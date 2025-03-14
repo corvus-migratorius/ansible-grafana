@@ -4,7 +4,7 @@
     name: "{{ plugin.name }}"
     version: "{{ plugin.version }}"
     grafana_plugins_dir: "{{ plugins_dir }}"
-    state: present
+    state: "{{ plugin.state | default('present') }}"
   register: plugin_status
 
 - name: "Restart grafana if add new plugin"
