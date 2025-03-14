@@ -21,6 +21,12 @@
 - name: "Configure dashboards"
   ansible.builtin.include_tasks: dashboards.yml
 
+- name: "Configure public dashboards"
+  loop: "{{ public_dashboards }}"
+  loop_control:
+    loop_var: public_dashboard
+  ansible.builtin.include_tasks: public_grafana_dashboards.yml
+
 - name: "Configure datasources"
   ansible.builtin.include_tasks: datasources.yml
 

@@ -1,0 +1,9 @@
+---
+- name: "Import public dashboard {{ dashboard_public.name }}"
+  community.grafana.grafana_dashboard:
+    grafana_url: "http://127.0.0.1:3000"
+    state: "{{ dashboard_public.state | default(present) }}"
+    overwrite: false
+    dashboard_id: "{{ dashboard_public.id }}"
+    dashboard_revision: "{{ dashboard_public.revision }}"
+    commit_message: "Add public dashboard {{ dashboard_public.name }}"
