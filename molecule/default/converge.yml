@@ -16,14 +16,16 @@
         user_email: "test2@mail.ru"
         is_admin: true
     grafana_plugins:
-      - name: grafana-piechart-panel
-        version: latest
       - name: grafana-metricsdrilldown-app
         version: latest
       - name: grafana-clock-panel
         version: 2.1.8
       - name: aceiot-svg-panel
         version: 0.1.5
+    grafana_public_dashboards:
+      - name: Node Full Exporter
+        id: 1860
+        revision: 36
 
   pre_tasks:
     - name: "Create Grafana system group"
@@ -49,6 +51,6 @@
       admin_api_password: "admin"
       users: "{{ grafana_users }}"
       plugins: "{{ grafana_plugins }}"
-      node_full_exporter_dashboard_revision: 36
+      public_dashboards: "{{ grafana_public_dashboards }}"
       dashboard_source_path: "molecule/default"
       datasource_source_path: "molecule/default"
