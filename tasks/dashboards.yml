@@ -1,5 +1,5 @@
 ---
-- name: "Create  directory"
+- name: "Create dashboard directory"
   ansible.builtin.file:
     path: "{{ dashboard_dir }}"
     state: directory
