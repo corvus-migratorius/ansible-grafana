@@ -1,7 +1,7 @@
 ---
 - name: "Import public dashboard {{ public_dashboard.name }}"
   community.grafana.grafana_dashboard:
-    grafana_url: "http://127.0.0.1:3000"
+    grafana_url: "http://127.0.0.1:{{ grafana_port }}"
     state: "{{ public_dashboard.state | default('present') }}"
     overwrite: false
     dashboard_id: "{{ public_dashboard.id }}"

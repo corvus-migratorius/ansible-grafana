@@ -1,7 +1,7 @@
 ---
 - name: "Create or update a Grafana user"
   community.grafana.grafana_user:
-    url: "http://127.0.0.1:3000"
+    url: "http://127.0.0.1:{{ grafana_port }}"
     url_username: "{{ admin_api_username }}"
     url_password: "{{ admin_api_password }}"
     name: "{{ user.name }}"

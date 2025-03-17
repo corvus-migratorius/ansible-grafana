@@ -19,7 +19,7 @@
 
 - name: "Import Grafana dashboards"
   community.grafana.grafana_dashboard:
-    grafana_url: "http://127.0.0.1:3000"
+    grafana_url: "http://127.0.0.1:{{ grafana_port }}"
     url_username: "{{ admin_api_username }}"
     url_password: "{{ admin_api_password }}"
     state: present
@@ -32,7 +32,7 @@
 - name: "Run | reload Grafana provisioned configurations"
   ansible.builtin.uri:
   # kics-scan ignore-line
-    url: "http://127.0.0.1:3000/api/admin/provisioning/plugins/reload"
+    url: "http://127.0.0.1:{{ grafana_port }}/api/admin/provisioning/plugins/reload"
     method: POST
     force_basic_auth: true
     user: "{{ admin_api_username }}"
