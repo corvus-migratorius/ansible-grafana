@@ -13,11 +13,4 @@
     version: "{{ plugin.version }}"
     grafana_plugins_dir: "{{ plugins_dir }}"
     state: "{{ plugin.state | default('present') }}"
-  register: plugin_status
-
-- name: "Restart the Grafana server if new plugin is added"
-  when: plugin_status.changed
-  ansible.builtin.systemd_service:
-    state: restarted
-    daemon_reload: true
-    name: grafana-server
+  notify: "Restart the Grafana server if new plugin is added"
