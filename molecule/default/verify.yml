@@ -3,6 +3,8 @@
   hosts: all
   gather_facts: false
   any_errors_fatal: true
+  vars_files:
+    - admin_cred.yml
 
   tasks:
 

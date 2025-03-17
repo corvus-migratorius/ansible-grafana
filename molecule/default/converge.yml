@@ -26,6 +26,8 @@
       - name: Node Full Exporter
         id: 1860
         revision: 36
+  vars_files:
+    - admin_cred.yml
 
   pre_tasks:
     - name: "Create Grafana system group"
@@ -47,8 +49,6 @@
     # kics-scan ignore-block
     - role: genlab.grafana
       grafana_version: 11.5.0
-      admin_api_username: "admin"
-      admin_api_password: "admin"
       users: "{{ grafana_users }}"
       plugins: "{{ grafana_plugins }}"
       public_dashboards: "{{ grafana_public_dashboards }}"

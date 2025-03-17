@@ -32,7 +32,7 @@
 - name: "Run | reload Grafana provisioned dashboard configurations"
   ansible.builtin.uri:
   # kics-scan ignore-line
-    url: "http://127.0.0.1:{{ grafana_port }}/api/admin/provisioning/dashboard/reload"
+    url: "http://127.0.0.1:{{ grafana_port }}/api/admin/provisioning/dashboards/reload"
     method: POST
     force_basic_auth: true
     user: "{{ admin_api_username }}"
