@@ -25,7 +25,7 @@
   loop: "{{ public_dashboards }}"
   loop_control:
     loop_var: public_dashboard
-  ansible.builtin.include_tasks: public_grafana_dashboards.yml
+  ansible.builtin.include_tasks: import_pub_dashboard.yml
 
 - name: "Configure plugins"
   when: plugins is defined
