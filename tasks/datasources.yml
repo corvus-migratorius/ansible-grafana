@@ -15,7 +15,7 @@
     group: "{{ grafana_group }}"
     mode: "0660"
   with_fileglob:
-    "{{ datasource_source_path }}/*.yaml"
+    "{{ datasource_source_path }}/*.y*ml"
 
 - name: "Run | reload Grafana datasource provisioned configurations"
   ansible.builtin.uri:
