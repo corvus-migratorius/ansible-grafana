@@ -39,6 +39,7 @@
       register: package_tmp
 
     - name: "Install DEB package"
+      notify: "(Re)start and enable Grafana"
       ansible.builtin.apt:
         deb: "{{ package_tmp.dest }}"
         state: present
@@ -49,8 +50,5 @@
         path: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
         state: absent
 
-- name: "Start and enable Grafana service"
-  ansible.builtin.service:
-    name: grafana-server
-    state: started
-    enabled: true
+- name: "Flush handlers"
+  ansible.builtin.meta: "flush_handlers"
