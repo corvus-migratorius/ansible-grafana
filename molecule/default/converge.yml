@@ -27,7 +27,7 @@
         id: 1860
         revision: 36
   vars_files:
-    - admin_cred.yml
+    - secrets/admin_cred.yml
 
   roles:
     # kics-scan ignore-block
@@ -36,5 +36,5 @@
       users: "{{ grafana_users }}"
       plugins: "{{ grafana_plugins }}"
       public_dashboards: "{{ grafana_public_dashboards }}"
-      dashboard_source_path: "molecule/default"
-      datasource_source_path: "molecule/default"
+      dashboard_source_path: "molecule/default/dashboards"
+      datasource_source_path: "molecule/default/datasources"
