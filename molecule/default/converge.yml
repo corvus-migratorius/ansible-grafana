@@ -29,22 +29,6 @@
   vars_files:
     - admin_cred.yml
 
-  pre_tasks:
-    - name: "Create Grafana system group"
-      ansible.builtin.group:
-        name: grafana
-        system: true
-        state: present
-
-    - name: "Create Grafana system user"
-      ansible.builtin.user:
-        name: grafana
-        group: grafana
-        system: true
-        shell: "/sbin/nologin"
-        create_home: false
-        state: present
-
   roles:
     # kics-scan ignore-block
     - role: genlab.grafana
