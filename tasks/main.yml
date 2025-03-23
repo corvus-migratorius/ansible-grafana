@@ -2,7 +2,7 @@
 - name: "Include grafana installation tasks"
   ansible.builtin.include_tasks: install.yml
 
-- name: "Ensure that Grafana is available"
+- name: "Wait for the Grafana server to become available"
   ansible.builtin.wait_for:
     host: "127.0.0.1"
     port: "{{ grafana_port }}"
@@ -16,7 +16,7 @@
     loop_var: user
   ansible.builtin.include_tasks: user.yml
 
-- name: "Configure dashboards"
+- name: "Configure custom dashboards"
   when: dashboard_source_path is defined
   ansible.builtin.include_tasks: dashboards.yml
 
