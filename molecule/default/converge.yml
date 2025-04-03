@@ -27,30 +27,16 @@
         id: 1860
         revision: 36
   vars_files:
-    - admin_cred.yml
-
-  pre_tasks:
-    - name: "Create Grafana system group"
-      ansible.builtin.group:
-        name: grafana
-        system: true
-        state: present
-
-    - name: "Create Grafana system user"
-      ansible.builtin.user:
-        name: grafana
-        group: grafana
-        system: true
-        shell: "/sbin/nologin"
-        create_home: false
-        state: present
+    - secrets/admin_cred.yml
 
   roles:
     # kics-scan ignore-block
     - role: genlab.grafana
       grafana_version: 11.5.0
+      admin_api_username: "{{ grafana.admin_api_username }}"
+      admin_api_password: "{{ grafana.admin_api_password }}"
       users: "{{ grafana_users }}"
       plugins: "{{ grafana_plugins }}"
       public_dashboards: "{{ grafana_public_dashboards }}"
-      dashboard_source_path: "molecule/default"
-      datasource_source_path: "molecule/default"
+      dashboard_source_path: "molecule/default/dashboards"
+      datasource_source_path: "molecule/default/datasources"
