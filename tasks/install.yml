@@ -31,11 +31,11 @@
   rescue:
     - name: "Install Grafana from deb package"
       when: install_type == "deb_download"
-      include_tasks: install_package.yml
+      ansible.builtin.include_tasks: install_package.yml
 
     - name: "Install Grafana from tar archive"
       when: install_type == "direct_download"
-      include_tasks: install_archive.yml
+      ansible.builtin.include_tasks: install_archive.yml
 
 - name: "Flush handlers"
   ansible.builtin.meta: "flush_handlers"

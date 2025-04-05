@@ -6,3 +6,4 @@ grafana_port: 3000
 dashboard_dir: "/tmp/grafana/dashboards"
 plugins_dir: "/var/lib/grafana/plugins"
 datasource_dir: "/etc/grafana/provisioning/datasources"
+install_dir: "/usr/share/grafana"

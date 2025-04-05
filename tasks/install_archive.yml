@@ -10,8 +10,8 @@
 
 - name: "Download Grafana archive"
   ansible.builtin.get_url:
-    url: "https://dl.grafana.com/oss/release/grafana_{{ grafana_version }}_amd64.tar.gz"
-    dest: "/tmp/grafana-{{ grafana_version }}_amd64.tar.gz"
+    url: "https://dl.grafana.com/oss/release/grafana-{{ grafana_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/grafana-{{ grafana_version }}.linux-amd64.tar.gz"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     mode: "0644"
@@ -19,7 +19,7 @@
 
 - name: Extract Grafana archive
   ansible.builtin.unarchive:
-    src: archive_tmp
+    src: "{{ archive_tmp.dest }}"
     dest: "{{ install_dir }}"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
