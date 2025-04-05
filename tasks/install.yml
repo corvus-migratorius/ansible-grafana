@@ -29,26 +29,13 @@
         fail_msg: "grafana version {{ grafana_version }} is not installed or not working correctly"
 
   rescue:
-    - name: "Download Grafana DEB package"
-      ansible.builtin.get_url:
-        url: "https://dl.grafana.com/oss/release/grafana_{{ grafana_version }}_amd64.deb"
-        dest: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
-        owner: "{{ grafana_user }}"
-        group: "{{ grafana_group }}"
-        mode: "0644"
-      register: package_tmp
+    - name: "Install Grafana from deb package"
+      when: install_type == "deb_download"
+      include_tasks: install_package.yml
 
-    - name: "Install DEB package"
-      notify: "(Re)start and enable Grafana"
-      ansible.builtin.apt:
-        deb: "{{ package_tmp.dest }}"
-        state: present
-        update_cache: true
-
-    - name: "Cleanup downloaded file"
-      ansible.builtin.file:
-        path: "/tmp/grafana-{{ grafana_version }}_amd64.deb"
-        state: absent
+    - name: "Install Grafana from tar archive"
+      when: install_type == "direct_download"
+      include_tasks: install_archive.yml
 
 - name: "Flush handlers"
   ansible.builtin.meta: "flush_handlers"
