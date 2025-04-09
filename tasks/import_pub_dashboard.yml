@@ -4,6 +4,8 @@
     grafana_url: "http://127.0.0.1:{{ grafana_port }}"
     state: "{{ public_dashboard.state | default('present') }}"
     overwrite: false
+    url_username: "{{ admin_api_username }}"
+    url_password: "{{ admin_api_password }}"
     dashboard_id: "{{ public_dashboard.id }}"
     dashboard_revision: "{{ public_dashboard.revision }}"
     commit_message: "Add public dashboard '{{ public_dashboard.name }}''"
