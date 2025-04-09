@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure that directories are existed
+- name: "Ensure that directories are existed"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -8,12 +8,13 @@
     group: "{{ grafana_group }}"
     mode: '0775'
   with_items:
-    - {{ install_dir }}
-    - {{ config_dir }}
-    - {{ pid_file_dir }}
-    - {{ log_dir }}
-    - {{ data_dir }}
-    - {{ provisioning_cfg_dir }}
+    - "{{ install_dir }}"
+    - "{{ config_dir }}"
+    - "{{ pid_file_dir }}"
+    - "{{ log_dir }}"
+    - "{{ data_dir }}"
+    - "{{ provisioning_cfg_dir }}"
+    - "{{ plugins_dir }}"
 
 - name: "Download Grafana archive"
   ansible.builtin.get_url:
@@ -24,7 +25,7 @@
     mode: "0644"
   register: archive_tmp
 
-- name: Extract Grafana archive
+- name: "Extract Grafana archive"
   ansible.builtin.unarchive:
     src: "{{ archive_tmp.dest }}"
     dest: "{{ install_dir }}"
@@ -35,3 +36,21 @@
     extra_opts:
       - --strip-components
       - '1'
+
+- name: "Copy ini file"
+  ansible.builtin.copy:
+    src: grafana.ini
+    dest: "{{ config_dir }}"
+    remote_src: true
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: "0660"
+
+- name: "Create systemd service unit"
+  notify: "(Re)start and enable Grafana"
+  ansible.builtin.template:
+    src: grafana-server.service.j2
+    dest: /etc/systemd/system/grafana-server.service
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: "0660"

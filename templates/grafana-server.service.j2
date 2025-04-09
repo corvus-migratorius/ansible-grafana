@@ -1,0 +1,51 @@
+[Unit]
+Description=Grafana instance
+Documentation=http://docs.grafana.org
+Wants=network-online.target
+After=network-online.target
+## After=postgresql.service mariadb.service mysql.service influxdb.service
+
+[Service]
+## EnvironmentFile=/etc/default/grafana-server
+User={{ grafana_user }}
+Group={{ grafana_group }}
+Type=simple
+Restart=on-failure
+WorkingDirectory={{ install_dir }}
+RuntimeDirectory=grafana
+RuntimeDirectoryMode=0750
+ExecStart={{ install_dir }}/bin/grafana server                                     \
+                            --config={{ config_dir }}/grafana.ini                                  \
+                            --pidfile={{ pid_file_dir }}/grafana-server.pid            \
+                            cfg:default.paths.logs={{ log_dir }}                       \
+                            cfg:default.paths.data={{ data_dir }}                      \
+                            cfg:default.paths.plugins={{ plugins_dir }}                \
+                            cfg:default.paths.provisioning={{ provisioning_cfg_dir}}
+LimitNOFILE=10000
+TimeoutStopSec=20
+CapabilityBoundingSet=
+DeviceAllow=
+LockPersonality=true
+MemoryDenyWriteExecute=false
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectProc=invisible
+ProtectSystem=full
+RemoveIPC=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target
