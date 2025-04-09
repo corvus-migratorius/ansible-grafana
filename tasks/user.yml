@@ -1,4 +1,10 @@
 ---
+
+- name: "Reset default admin password"
+  ansible.builtin.command: >
+    grafana-cli admin reset-admin-password "{{ admin_api_password }}"
+  no_log: true
+
 - name: "Create | update a Grafana user"
   community.grafana.grafana_user:
     url: "http://127.0.0.1:{{ grafana_port }}"
