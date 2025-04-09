@@ -1,12 +1,19 @@
 ---
 
-- name: Create installation directory
+- name: Ensure that directories are existed
   ansible.builtin.file:
-    path: "{{ install_dir }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     mode: '0775'
+  with_items:
+    - {{ install_dir }}
+    - {{ config_dir }}
+    - {{ pid_file_dir }}
+    - {{ log_dir }}
+    - {{ data_dir }}
+    - {{ provisioning_cfg_dir }}
 
 - name: "Download Grafana archive"
   ansible.builtin.get_url:

@@ -14,7 +14,7 @@
     create_home: false
     state: present
 
-- name: "Install Grafana deb package"
+- name: "Install Grafana"
   block:
     - name: "Check Grafana version"
       changed_when: false
