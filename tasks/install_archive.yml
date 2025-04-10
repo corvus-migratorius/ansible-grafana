@@ -37,14 +37,33 @@
       - --strip-components
       - '1'
 
+- name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
+  ansible.builtin.file:
+    path: "{{ pid_file_dir }}/grafana-server.pid"
+    state: touch
+    mode: "0755"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+
 - name: "Copy ini file"
   ansible.builtin.copy:
-    src: grafana.ini
+    src: files/grafana.ini
     dest: "{{ config_dir }}"
-    remote_src: true
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     mode: "0660"
+
+- name: "Move grafana cli wrapper"
+  ansible.builtin.copy:
+    src: /usr/share/grafana/packaging/wrappers/{{ item }}
+    dest: /usr/sbin/{{ item }}
+    remote_src: true
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: "0755"
+  with_items:
+    - grafana-cli
+    - grafana-server
 
 - name: "Create systemd service unit"
   notify: "(Re)start and enable Grafana"

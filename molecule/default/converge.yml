@@ -33,7 +33,7 @@
     # kics-scan ignore-block
     - role: genlab.grafana
       grafana_version: 11.5.0
-      install_type: deb_download
+      install_type: direct_download
       admin_api_username: "{{ grafana.admin_api_username }}"
       admin_api_password: "{{ grafana.admin_api_password }}"
       users: "{{ grafana_users }}"
