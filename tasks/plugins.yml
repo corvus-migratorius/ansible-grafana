@@ -14,8 +14,3 @@
     grafana_plugins_dir: "{{ plugins_dir }}"
     state: "{{ plugin.state | default('present') }}"
   notify: "(Re)start and enable Grafana"
-  register: debdeb
-
-- name: "debug  plugins"
-  ansible.builtin.debug:
-    var: debdeb
