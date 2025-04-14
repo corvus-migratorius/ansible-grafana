@@ -1,0 +1,35 @@
+#! /usr/bin/env bash
+
+# Wrapper for the grafana binary
+# This file serves as a wrapper for the grafana binary. It ensures we set
+# the system-wide Grafana configuration that was bundled with the package as we
+# use the binary.
+
+GRAFANA_HOME="${GRAFANA_HOME:-{{ install_dir }}}"
+
+CONF_DIR="{{ config_dir }}"
+DATA_DIR="{{ data_dir }}"
+PLUGINS_DIR="{{ plugins_dir }}"
+LOG_DIR="{{ log_dir }}"
+
+CONF_FILE="{{ config_dir }}"/grafana.ini
+PROVISIONING_CFG_DIR="{{ provisioning_cfg_dir }}"
+
+EXECUTABLE="{{ install_dir }}/bin/grafana"
+
+if [ ! -x $EXECUTABLE ]; then
+ echo "$EXECUTABLE not installed or not executable"
+ exit 5
+fi
+
+OPTS="--homepath=${GRAFANA_HOME} \
+      --config=${CONF_FILE} \
+      --pluginsDir=${PLUGINS_DIR} \
+      --configOverrides='cfg:default.paths.provisioning=$PROVISIONING_CFG_DIR \
+                        cfg:default.paths.data=${DATA_DIR} \
+                        cfg:default.paths.logs=${LOG_DIR} \
+                        cfg:default.paths.plugins=${PLUGINS_DIR}'"
+
+CMD=cli
+
+eval $EXECUTABLE "$CMD" "$OPTS" "$@"

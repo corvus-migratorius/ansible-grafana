@@ -46,7 +46,7 @@
     group: "{{ grafana_group }}"
 
 - name: "Copy ini file"
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: files/grafana.ini
     dest: "{{ config_dir }}"
     owner: "{{ grafana_user }}"
@@ -54,10 +54,9 @@
     mode: "0660"
 
 - name: "Move grafana cli wrapper"
-  ansible.builtin.copy:
-    src: /usr/share/grafana/packaging/wrappers/{{ item }}
-    dest: /usr/sbin/{{ item }}
-    remote_src: true
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/usr/sbin/{{ item }}"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     mode: "0755"
