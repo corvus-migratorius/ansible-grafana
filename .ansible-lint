@@ -15,5 +15,5 @@ warn_list:
 exclude_paths:
   - .github/
   - molecule/default/admin_cred.yml
-  - molecule/default/test_datasource_loki.yaml
-  - molecule/default/test_datasource_prometheus.yaml
+  - molecule/default/datasources
+  - molecule/default/dashboards
