@@ -66,10 +66,13 @@
       notify: "(Re)start and enable Grafana"
       ansible.builtin.template:
         src: grafana-server.vars.j2
-        dest: /etc/default/grafana-server
+        dest: "{{ item }}"
         owner: "{{ grafana_user }}"
         group: "{{ grafana_group }}"
         mode: "0660"
+      with_items:
+        - "/etc/default/grafana-server"
+        - "/etc/default/grafana"
 
 - name: "Flush handlers"
   ansible.builtin.meta: "flush_handlers"
