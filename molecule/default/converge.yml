@@ -40,3 +40,5 @@
       public_dashboards: "{{ grafana_public_dashboards }}"
       dashboard_source_path: "molecule/default/dashboards"
       datasource_source_path: "molecule/default/datasources"
+      log_dir: "/opt/grafana/data"
+      data_dir: "/opt/grafana/lib"
