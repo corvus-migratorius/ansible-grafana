@@ -65,7 +65,7 @@
     - name: "Create env file for systemd service unit"
       notify: "(Re)start and enable Grafana"
       ansible.builtin.template:
-        src: grafana-server.vars.j2
+        src: grafana-server.env.j2
         dest: "{{ item }}"
         owner: "{{ grafana_user }}"
         group: "{{ grafana_group }}"
