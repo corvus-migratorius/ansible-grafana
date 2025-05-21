@@ -7,3 +7,5 @@
     dashboard_id: "{{ public_dashboard.id }}"
     dashboard_revision: "{{ public_dashboard.revision }}"
     commit_message: "Add public dashboard '{{ public_dashboard.name }}''"
+    url_username: "{{ admin_api_username }}"
+    url_password: "{{ admin_api_password }}"

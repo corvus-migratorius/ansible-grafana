@@ -17,7 +17,7 @@
         is_admin: true
     grafana_plugins:
       - name: grafana-metricsdrilldown-app
-        version: latest
+        version: 1.0.0
       - name: grafana-clock-panel
         version: 2.1.8
       - name: aceiot-svg-panel
@@ -40,3 +40,5 @@
       public_dashboards: "{{ grafana_public_dashboards }}"
       dashboard_source_path: "molecule/default/dashboards"
       datasource_source_path: "molecule/default/datasources"
+      log_dir: "/opt/grafana/data"
+      data_dir: "/opt/grafana/lib"
