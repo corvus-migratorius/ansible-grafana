@@ -1,23 +1,24 @@
-template
+genlab.grafana
 =========
 
-Template for Ansible role monorepos.
+This ansible role installs [Grafana](https://github.com/grafana/grafana) - the open-source platform for monitoring and observability. It can produce charts, graphs, and alerts for the web when connected to supported data sources.
 
-⚠️ Do not forget to update:
-
-- `meta/main.yml`
-- Conda/Mamba manifests
-- this README =) including *the name at the top* and *maintainers*.
+ This role installs and configures Grafana from binary, uploads dashboards, installs plugins, imports public dashboards and datasources. You can also change admin passwords and create users.
 
 Requirements
 ------------
 
-None
+You need `community.grafana` module. 
 
 Role Variables
 --------------
 
-None
+```
+grafana_user: "grafana"
+grafana_group: "grafana"
+grafana_version: 11.5.0
+
+```
 
 Dependencies
 ------------
