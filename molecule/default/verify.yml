@@ -3,6 +3,8 @@
   hosts: all
   gather_facts: false
   any_errors_fatal: true
+  vars_files:
+    - admin_cred.yml
 
   tasks:
 
@@ -25,7 +27,7 @@
     # kics-scan ignore-block
     - name: "Check if Grafana login page is reachable"
       ansible.builtin.uri:
-        url: "http://localhost:3000/api/health"
+        url: "http://localhost:{{ grafana_port }}/api/health"
         return_content: true
         status_code: 200
         method: GET
